@@ -1,60 +1,17 @@
 
-const Header = ({ course }) => {
-  return (
-    <>
-      <h1>{course}</h1>
-    </>
-  )
-}
-
-const Part = ({ part, exercises }) => {
-  return <p>{part} {exercises}</p>
-}
-
-const Content = ({ parts }) => {
-  return (
-    <div>
-      {parts.map(item => <Part part={item.name} exercises={item.exercises} />)}
-    </div>
-  )
-}
-
-const Total = ({ parts }) => {
-
-  let total = 0
-
-  parts.map(item => total = total + item.exercises)
-  return (
-    <>
-      <p>Number of exercises {total}</p>
-    </>
-  )
-}
+import { useState } from "react"
 
 const App = () => {
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7
-      },
-      {
-        name: 'State of a component',
-        exercises: 14
-      }
-    ]
+  const [value, setValue] = useState(10)
+
+  const handleClick = () => {
+    setValue(0);
   }
 
   return (
     <div>
-      <Header course={course.name} />
-      <Content parts={course.parts} />
-      <Total parts={course.parts} />
+      {value}
+      <button onClick={handleClick}>reset to zero</button>
     </div>
   )
 }
