@@ -6,6 +6,20 @@ const Button = ({ onClick, text }) => {
   )
 }
 
+const Statistic = ({ good, neutral, bad, total, }) => {
+  return (
+    <div>
+      <h2>Statistics</h2>
+      <p>Good: {good}</p>
+      <p>Neutral: {neutral}</p>
+      <p>Bad: {bad}</p>
+      <p>All: {total}</p>
+      <p>Average: {total / 3}  </p>
+      <p>Positive: {good / total * 100}%</p>
+    </div>
+  )
+}
+
 
 const App = () => {
   // save clicks of each button to its own state
@@ -13,7 +27,7 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
-
+  const total = good + neutral + bad
 
   return (
     <div>
@@ -23,10 +37,7 @@ const App = () => {
       <Button onClick={() => setNeutral(neutral + 1)} text={"Neutral"}></Button>
       <Button onClick={() => setBad(bad + 1)} text={"Bad"}></Button>
 
-      <h2>Statistics</h2>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
+      <Statistic good={good} neutral={neutral} bad={bad} total={total}></Statistic>
     </div>
   )
 }
