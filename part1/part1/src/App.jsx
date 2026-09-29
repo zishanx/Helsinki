@@ -19,13 +19,21 @@ const Statistic = ({ good, neutral, bad, total, }) => {
   return (
     <div>
       <h2>Statistics</h2>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
-      <p>All: {total}</p>
-      <p>Average: {total / 3}  </p>
-      <p>Positive: {good / total * 100}%</p>
+      <StatisticLine text="Good" value={good} />
+      <StatisticLine text="Neutral" value={neutral} />
+      <StatisticLine text="Bad" value={bad} />
+      <StatisticLine text="All" value={total} />
+      <StatisticLine text="Average" value={total / 3} />
+      <StatisticLine text="Positive" value={`${good / total * 100} %`} />
     </div>
+  )
+}
+
+const StatisticLine = ({ text, value }) => {
+  return (
+    <>
+      <p>{text}: {value}</p>
+    </>
   )
 }
 
