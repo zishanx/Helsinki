@@ -1,77 +1,69 @@
 import { useState } from 'react'
 
-const Button = ({ onClick, text }) => {
-  return (
-    <button onClick={onClick}>{text}</button>
-  )
-}
+const App = () => {
+  const anecdotes = [
+    'If it hurts, do it more often.',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
+    'The only way to go fast, is to go well.'
+  ]
 
-const Statistic = ({ good, neutral, bad, total, }) => {
+  const arr = new Array(anecdotes.length).fill(0)
 
-  if (total === 0) {
-    return (
-      <div>
-        <h2>Statistic</h2>
-        <p>No feedback given</p>
-      </div>
-    )
+  const [vote, setVote] = useState(arr)
+
+  const [selected, setSelected] = useState(0)
+
+  let most = 0
+
+  for (let i = 0; i < anecdotes.length; i++) {
+    if (vote[i] > vote[most]) {
+      most = i
+    }
   }
-  return (
-    <div>
-      <h2>Statistics</h2>
-      <table>
-        <tbody>
-          <tr>
-            <StatisticLine text="Good" value={good} />
-          </tr>
-          <tr>
-            <StatisticLine text="Neutral" value={neutral} />
-          </tr>
-          <tr>
-            <StatisticLine text="Bad" value={bad} />
-          </tr>
-          <tr>
-            <StatisticLine text="All" value={total} />
-          </tr>
-          <tr>
-            <StatisticLine text="Average" value={total / 3} />
-          </tr>
-          <tr>
-            <StatisticLine text="Positive" value={`${good / total * 100} %`} />
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  )
-}
 
-const StatisticLine = ({ text, value }) => {
+  const handleClick = () => {
+    const random = Math.floor(Math.random() * anecdotes.length)
+    console.log(random)
+    setSelected(random)
+  }
+
+  const handleVote = () => {
+    const copy = [...vote]
+    copy[selected] += 1
+    console.log(copy)
+    setVote(copy)
+  }
+
   return (
     <>
-      <p>{text}: {value}</p>
+      <div>
+        <h1>Anecdote of the day</h1>
+        <h2>
+          {anecdotes[selected]}
+        </h2>
+        <h3>
+          This has a vote of {vote[selected]}
+        </h3>
+
+        <button onClick={handleClick}>Next Anecdotes</button>
+        <button onClick={handleVote}>Vote</button>
+      </div>
+      <div>
+        <h2>
+          Anecdote with most votes
+        </h2>
+
+        <p>{anecdotes[most]}</p>
+        <p>This has {vote[most]} votes.</p>
+
+      </div>
     </>
-  )
-}
 
-
-const App = () => {
-  // save clicks of each button to its own state
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-
-  const total = good + neutral + bad
-
-  return (
-    <div>
-      <h1>Give feedback</h1>
-
-      <Button onClick={() => setGood(good + 1)} text={"Good"}></Button>
-      <Button onClick={() => setNeutral(neutral + 1)} text={"Neutral"}></Button>
-      <Button onClick={() => setBad(bad + 1)} text={"Bad"}></Button>
-
-      <Statistic good={good} neutral={neutral} bad={bad} total={total}></Statistic>
-    </div>
   )
 }
 
