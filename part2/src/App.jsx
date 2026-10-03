@@ -1,44 +1,45 @@
 import { useState } from 'react'
-import Note from './components/Note'
 
+const App = () => {
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas' }
+  ])
+  const [newName, setNewName] = useState('')
 
-const App = (props) => {
-  const [notes, setNotes] = useState(props.notes)
-
-  const [newNote, setNewNote] = useState('a new note')
-
-  const addNote = (event) => {
-    event.prenvetDefault()
-    console.log('button clicked', event.target)
-    const noteObject = {
-      content: newNote,
-      important: Math.random() < 0.5,
-      id: String(notes.length + 1)
-    }
-
-    setNotes(notes.concat(noteObject))
-    setNewNote('')
+  const addName = (e) => {
+    setNewName(e.target.value)
   }
 
-  const handleNoteChange = (event) => {
-    console.log(event.target.value)
-    setNewNote(event.target.value)
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    for (const value of persons) {
+      if (value.name === newName) {
+        alert(`${newName} is already added to the phonebook.`)
+        setNewName('')
+        return
+      }
+    }
+
+    setPersons(prev => [...prev, { name: newName }])
+    setNewName('')
   }
 
   return (
     <div>
-      <h1>Notes</h1>
-      <ul>
-        {notes.map(note =>
-          <Note key={note.id} note={note} />
-        )}
-      </ul>
-      <form onSubmit={addNote}>
-        <input type="text" value={newNote} onChange={handleNoteChange} />
-        <button type='submit'> Save</button>
+      <h2>Phonebook</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          name: <input type='text' value={newName} onChange={addName} />
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
       </form>
+      <h2>Numbers</h2>
+      {persons.map(item => <p>{item.name}</p>)}
     </div>
   )
 }
 
-export default App 
+export default App
